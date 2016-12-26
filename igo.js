@@ -1,6 +1,3 @@
-/**
- * Created by Alnim on 12/24/2016.
- */
 
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext("2d");
@@ -127,7 +124,7 @@ function Igo() {
         }
         bX -= 1;
         bY -= 1;
-        if (this.data[bX][bY] == 0) {
+        if (this.data[bY][bX] == 0) {
             if (this.turn % 2 == 0) { //black
                 this.data[bY][bX] = 1;
             } else { //white
