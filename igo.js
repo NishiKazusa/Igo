@@ -142,7 +142,9 @@ function Igo() {
         this.c = op.c;
         this.color = op.color;
         this.nSSS = op.nSSS;
+        this.SSS = op.SSS || [];
         this.li = op.li;
+        this.gN = op.gN || -1;
     }
 
     Ban.prototype.giveAttri = function () {
@@ -156,9 +158,9 @@ function Igo() {
                             c: c
                         }
                     );
-                    if(typeof p == "number"){
+                    if (typeof p == "number") {
                         BA[r][c].color = p;
-                    }else if(typeof p == "object"){
+                    } else if (typeof p == "object") {
                         BA[r][c].color = p.color;
                     }
                 }
@@ -193,6 +195,7 @@ function Igo() {
                 if (s.color == this.color) {
                     console.log("setSSS()");
                     nSSS++;
+                    this.SSS.push(s);
                 }
             }
 
@@ -223,13 +226,52 @@ function Igo() {
         this.li = li; //asdjfh
     }
 
-// Ban.prototype.addGroups = function(){
-//     let BA = this.data;
-//
-// }
+    Ban.prototype.addGroups = function () {
+        let BA = this.data;
+        let gN = 0;
+        for (let r = 0; r < BA.length; r++) {
+            for (let c = 0; c < BA[0].length; c++) {
+                p = BA[r][c];
+                if (p.nSSS > 0) {
+                    p.gN = gN
+                    let A = null;
+                    if (p.color == 1)
+                        A = Igo.gB;
+                    else if (p.color == 2)
+                        A = Igo.gW;
+                    A.push([]);
+                    p.addGroup();
+                    gN++;
+                }
+            }
+        }
+    }
+    Ishi.prototype.addGroup = function () {
+        let nSSS0 = 0;
+        let isDuplicate = false;
+        this.nSSS--;
+        for(let i in Igo.gB[this.gN]){
+            let s = Igo.gB[this.gN][i];
+            if(s.nSSS == 0){
+                nSSS0++;
+            }
+            if(s.r == this.r && s.c == this.c){
+                isDuplicate = true;
+            }
+        }
+        if(!isDuplicate){
+            Igo.gB[this.gN].push(this);
+        }
+        if(nSSS0 != Igo.gB[this.gN].length){
+            this.SSS[this.nSSS].addGroup(this.gN);
+        }
+
+
+    }
 
 //Groups of Stones
-    let gB = [], gW = [];
+    Igo.gB = [];
+    Igo.gW = [];
 //Gives global access
     Igo.Ban = Ban;
 }
